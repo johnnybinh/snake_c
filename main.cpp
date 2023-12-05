@@ -1,62 +1,60 @@
-
+#include <curses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctime>
 
-int width = 50;
-int height = 20;
-int i, j;
-int gameOver;
-int score;
+#define WIDTH 40
+#define HEIGHT 21
+#define pacman 'C'
+#define WALL '#'
+#define FOOD 'o'
+#define MONSTER 'X'
+#define EMPTY ' '
 
-class
+//declare var
+int res = 0;
+int score = 0;
+int pacman_x, pacman_y;
+char board[HEIGHT][WIDTH];
+int food = 0;
+int curr = 0;
 
-
-
-
-void draw()
-{
-  int map[] =
-      {
-          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-          1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-          1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-  int maplength = sizeof(map) / sizeof(map[0]);
-  printf("%d\n", maplength);
-  for (int i = 0; i < maplength; i++)
-  {
-    if (map[i] == 0)
-    {
-      printf(" ");
-    }
-    if (map[i] == 1)
-    {
-      printf("#");
-    }
-    if (map[i] == 2)
-    {
-      printf("#\n");
+void init(){
+  //border
+  for(int i = 0; i < HEIGHT; i++){
+    for(int j = 0; j < WIDTH; j++){
+      if(i == 0 || i == HEIGHT  -1 || j == 0 || j == WIDTH -1){
+        board[i][j] = WALL;
+      }
+      else{
+        board[i][j] = EMPTY;
+      }
     }
   }
-}
-void setup()
-{
-  srand(time(NULL));
-  
-}
-void update()
-{
-}
-void movement()
-{
+  // walls;
+  int count = 10;
+  while(count != 0){
+    for(int i = 2; i < WIDTH; i = i + 2){
+      for(int j = 2; j < 38; j++){
+      board[i][j] = WALL;
+    }
+  }
+    
+    count--;
+  }
 }
 
-int main()
-{
+void draw(){
+  for (int i = 0; i < HEIGHT; i++){
+    for(int j = 0; j < WIDTH; j++){
+      printf("%c", board[i][j]);
+    }
+    printf(" \n");
+  }
+}
+
+
+int main(){
+  init();
   draw();
-  return 0;
 }
