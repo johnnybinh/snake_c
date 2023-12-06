@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctime>
+#include <cstdlib>
 
 #define WIDTH 40
 #define HEIGHT 21
@@ -21,6 +22,7 @@ int curr = 0;
 
 void init()
 {
+  srand(time(0));
   // border
   for (int i = 0; i < HEIGHT; i++)
   {
@@ -62,6 +64,24 @@ void init()
       board[i][j] = WALL;
     }
   }
+  // FOOD
+  int count = 10;
+  while (count != 0)
+  {
+    int i = (rand() % (HEIGHT + 1));
+    int j = (rand() % (WIDTH + 1));
+
+    if (board[i][j] != WALL && board[i][j] != pacman)
+    {
+      board[i][j] = FOOD;
+      food++;
+      count--;
+    }
+  }
+  // init pacman
+  pacman_x = WIDTH / 2;
+  pacman_y = HEIGHT / 2;
+  board[pacman_y][pacman_x] = pacman;
 }
 
 void draw()
@@ -73,6 +93,23 @@ void draw()
       printf("%c", board[i][j]);
     }
     printf(" \n");
+  }
+  printf("score: ");
+  printf("food left: ");
+}
+
+void Move(int move_x, int move_y)
+{
+  int x = pacman_x + move_x;
+  int y = pacman_y + move_y;
+
+  // collision
+  if (board[y][x] != WALL)
+  {
+    if (board[y][x] == FOOD)
+    {
+      score++;
+    }
   }
 }
 
